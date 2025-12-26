@@ -1,0 +1,91 @@
+@import "tailwindcss";
+@import "highlight.js/styles/github-dark.css";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* 文章内容样式优化 */
+.prose {
+  line-height: 1.75;
+}
+
+.prose p {
+  margin-top: 1.25em;
+  margin-bottom: 1.25em;
+}
+
+.prose h1, .prose h2, .prose h3, .prose h4 {
+  margin-top: 2em;
+  margin-bottom: 1em;
+  line-height: 1.2;
+}
+
+.prose ul, .prose ol {
+  margin-top: 1.25em;
+  margin-bottom: 1.25em;
+  padding-left: 1.625em;
+}
+
+.prose li {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.prose code {
+  font-size: 0.875em;
+  font-weight: 600;
+}
+
+.prose pre {
+  margin-top: 2em;
+  margin-bottom: 2em;
+  padding: 1.5em;
+  overflow-x: auto;
+}
+
+.prose blockquote {
+  margin-top: 1.6em;
+  margin-bottom: 1.6em;
+  padding-left: 1em;
+  border-left: 0.25em solid #e5e7eb;
+}
+
+.prose img {
+  margin-top: 2em;
+  margin-bottom: 2em;
+  border-radius: 0.5rem;
+}
+
+.prose table {
+  width: 100%;
+  margin-top: 2em;
+  margin-bottom: 2em;
+  border-collapse: collapse;
+}
+
+.prose th, .prose td {
+  border: 1px solid #e5e7eb;
+  padding: 0.5em 1em;
+}

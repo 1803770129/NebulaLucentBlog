@@ -1,0 +1,66 @@
+---
+title: "快速开始指南"
+date: "2025-01-02"
+excerpt: "快速了解如何使用这个博客系统编写和发布文章。"
+tags: ["指南", "入门"]
+author: "博主"
+---
+
+# 快速开始指南
+
+本指南将帮助你快速上手使用这个博客系统。
+
+## 创建新文章
+
+1. 在 `content/posts` 目录下创建一个新文件
+2. 文件名将成为 URL slug（例如：`my-first-post.mdx`）
+3. 添加 Frontmatter 元数据：
+
+```mdx
+---
+title: "我的第一篇文章"
+date: "2025-01-03"
+excerpt: "文章摘要"
+tags: ["标签1", "标签2"]
+author: "你的名字"
+---
+
+# 文章标题
+
+文章内容从这里开始...
+```
+
+## Markdown 语法
+
+支持所有标准 Markdown 语法：
+
+- **粗体文本**
+- *斜体文本*
+- `行内代码`
+- [链接](https://example.com)
+- 列表
+  - 项目 1
+  - 项目 2
+
+## 代码块
+
+\`\`\`javascript
+function hello() {
+  console.log("Hello, World!");
+}
+\`\`\`
+
+## 使用 MDX 组件
+
+MDX 允许你在文章中使用 React 组件，这为内容创作提供了无限可能！
+
+## 部署
+
+文章写好后，运行：
+
+\`\`\`bash
+npm run build
+npm start
+\`\`\`
+
+享受写作的乐趣吧！
