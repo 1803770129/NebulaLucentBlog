@@ -1,9 +1,46 @@
 @import "tailwindcss";
 @import "highlight.js/styles/github-dark.css";
 
+/* ===== 宇宙主题色彩系统 ===== */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* 主色调 */
+  --cosmic-deep-purple: #1a1a2e;
+  --cosmic-space-blue: #16213e;
+  --cosmic-nebula-pink: #e94560;
+  --cosmic-dark-blue: #0f3460;
+  
+  /* 点缀色 */
+  --cosmic-star-gold: #f5d042;
+  --cosmic-aurora-green: #00d9ff;
+  --cosmic-violet: #7b2cbf;
+  --cosmic-soft-pink: #ff6b9d;
+  
+  /* 渐变 */
+  --gradient-cosmic: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+  --gradient-aurora: linear-gradient(45deg, #00d9ff 0%, #7b2cbf 50%, #e94560 100%);
+  --gradient-nebula: linear-gradient(180deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  --gradient-sunset: linear-gradient(135deg, #f093fb 0%, #f5576c 50%, #f093fb 100%);
+  
+  /* 光晕 */
+  --glow-pink: 0 0 30px rgba(233, 69, 96, 0.4);
+  --glow-blue: 0 0 30px rgba(0, 217, 255, 0.4);
+  --glow-gold: 0 0 30px rgba(245, 208, 66, 0.4);
+  --glow-violet: 0 0 30px rgba(123, 44, 191, 0.4);
+  
+  /* 浅色模式 */
+  --background: #f8f9ff;
+  --foreground: #1a1a2e;
+  --surface: rgba(255, 255, 255, 0.9);
+  --surface-hover: rgba(255, 255, 255, 0.95);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0d0d1a;
+    --foreground: #e6e6e6;
+    --surface: rgba(22, 33, 62, 0.6);
+    --surface-hover: rgba(22, 33, 62, 0.8);
+  }
 }
 
 @theme inline {
@@ -13,20 +50,1007 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  overflow-x: hidden;
 }
 
-/* 文章内容样式优化 */
+/* ===== 宇宙背景效果 ===== */
+.cosmic-bg {
+  background: 
+    radial-gradient(ellipse at 20% 20%, rgba(123, 44, 191, 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 80%, rgba(233, 69, 96, 0.1) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(0, 217, 255, 0.08) 0%, transparent 60%),
+    linear-gradient(180deg, #f8f9ff 0%, #eef1ff 50%, #e8ecff 100%);
+}
+
+@media (prefers-color-scheme: dark) {
+  .cosmic-bg {
+    background: 
+      radial-gradient(ellipse at 20% 20%, rgba(123, 44, 191, 0.2) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 80%, rgba(233, 69, 96, 0.15) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 50%, rgba(0, 217, 255, 0.1) 0%, transparent 60%),
+      linear-gradient(180deg, #0d0d1a 0%, #1a1a2e 50%, #16213e 100%);
+  }
+}
+
+/* 噪点纹理 */
+.noise-texture::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  opacity: 0.03;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@media (prefers-color-scheme: dark) {
+  .noise-texture::before {
+    opacity: 0.05;
+  }
+}
+
+/* ===== 星点效果 ===== */
+.star-field {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.star {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: white;
+  border-radius: 50%;
+  animation: twinkle var(--twinkle-duration, 3s) ease-in-out infinite;
+  animation-delay: var(--twinkle-delay, 0s);
+}
+
+.star-large {
+  width: 3px;
+  height: 3px;
+  box-shadow: 0 0 6px 2px rgba(255, 255, 255, 0.3);
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.2; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+/* ===== 极光效果 ===== */
+.aurora {
+  position: absolute;
+  width: 150%;
+  height: 60%;
+  top: -20%;
+  left: -25%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(0, 217, 255, 0.1) 20%,
+    rgba(123, 44, 191, 0.15) 40%,
+    rgba(233, 69, 96, 0.1) 60%,
+    rgba(0, 217, 255, 0.1) 80%,
+    transparent 100%
+  );
+  filter: blur(60px);
+  animation: aurora-flow 15s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes aurora-flow {
+  0%, 100% { transform: translateX(-10%) rotate(-5deg); opacity: 0.5; }
+  50% { transform: translateX(10%) rotate(5deg); opacity: 0.8; }
+}
+
+
+/* ===== 宇宙卡片效果 ===== */
+.cosmic-card {
+  background: var(--surface);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(123, 44, 191, 0.1);
+  border-radius: 1.5rem;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.cosmic-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    135deg,
+    rgba(0, 217, 255, 0.3) 0%,
+    rgba(123, 44, 191, 0.2) 50%,
+    rgba(233, 69, 96, 0.3) 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.cosmic-card:hover::before {
+  opacity: 1;
+}
+
+.cosmic-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 
+    0 25px 50px -12px rgba(0, 0, 0, 0.15),
+    0 0 40px rgba(123, 44, 191, 0.1),
+    0 0 80px rgba(0, 217, 255, 0.05);
+}
+
+@media (prefers-color-scheme: dark) {
+  .cosmic-card {
+    border-color: rgba(123, 44, 191, 0.2);
+  }
+  
+  .cosmic-card:hover {
+    box-shadow: 
+      0 25px 50px -12px rgba(0, 0, 0, 0.4),
+      0 0 40px rgba(123, 44, 191, 0.2),
+      0 0 80px rgba(0, 217, 255, 0.1);
+  }
+}
+
+/* 卡片角落装饰 */
+.cosmic-card-decoration {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--cosmic-star-gold);
+  box-shadow: 0 0 10px var(--cosmic-star-gold);
+  animation: star-pulse 2s ease-in-out infinite;
+}
+
+.cosmic-card-decoration.top-right {
+  top: 1rem;
+  right: 1rem;
+}
+
+.cosmic-card-decoration.bottom-left {
+  bottom: 1rem;
+  left: 1rem;
+  background: var(--cosmic-aurora-green);
+  box-shadow: 0 0 10px var(--cosmic-aurora-green);
+  animation-delay: 0.5s;
+}
+
+@keyframes star-pulse {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.3); }
+}
+
+/* ===== 发光文字效果 ===== */
+.glow-text {
+  background: var(--gradient-cosmic);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradient-shift 6s ease infinite;
+  position: relative;
+}
+
+.glow-text::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  top: 0;
+  background: inherit;
+  background-size: inherit;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: blur(20px);
+  opacity: 0.5;
+  z-index: -1;
+}
+
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* ===== 导航栏宇宙风格 ===== */
+.nav-cosmic {
+  background: rgba(248, 249, 255, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(123, 44, 191, 0.1);
+  transition: all 0.3s ease;
+}
+
+.nav-cosmic.scrolled {
+  background: rgba(248, 249, 255, 0.95);
+  box-shadow: 
+    0 4px 30px rgba(0, 0, 0, 0.05),
+    0 0 0 1px rgba(123, 44, 191, 0.1);
+}
+
+@media (prefers-color-scheme: dark) {
+  .nav-cosmic {
+    background: rgba(13, 13, 26, 0.8);
+    border-bottom-color: rgba(123, 44, 191, 0.2);
+  }
+  
+  .nav-cosmic.scrolled {
+    background: rgba(13, 13, 26, 0.95);
+    box-shadow: 
+      0 4px 30px rgba(0, 0, 0, 0.3),
+      0 0 0 1px rgba(123, 44, 191, 0.2);
+  }
+}
+
+/* 星光边框效果 */
+.nav-starlight-border {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(0, 217, 255, 0.3) 20%,
+    rgba(123, 44, 191, 0.5) 50%,
+    rgba(233, 69, 96, 0.3) 80%,
+    transparent 100%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.nav-starlight-border.active {
+  opacity: 1;
+  animation: starlight-shimmer 3s ease-in-out infinite;
+}
+
+@keyframes starlight-shimmer {
+  0%, 100% { 
+    background-position: -200% 0;
+    opacity: 0.6;
+  }
+  50% { 
+    background-position: 200% 0;
+    opacity: 1;
+  }
+}
+
+/* 导航链接星光效果 */
+.nav-link-cosmic {
+  position: relative;
+  padding: 0.5rem 1rem;
+  transition: color 0.3s ease;
+}
+
+.nav-link-cosmic::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: var(--gradient-aurora);
+  transform: translateX(-50%);
+  transition: width 0.3s ease;
+  border-radius: 1px;
+  box-shadow: 0 0 10px rgba(0, 217, 255, 0.5);
+}
+
+.nav-link-cosmic:hover::after,
+.nav-link-cosmic.active::after {
+  width: 80%;
+}
+
+/* 星光扩散下划线 */
+.nav-link-starlight {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  transform: translateX(-50%);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+}
+
+.nav-link-starlight::before,
+.nav-link-starlight::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--cosmic-aurora-green);
+  transform: translateY(-50%) scale(0);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 0 8px var(--cosmic-aurora-green);
+}
+
+.nav-link-starlight::before {
+  left: 0;
+}
+
+.nav-link-starlight::after {
+  right: 0;
+  background: var(--cosmic-nebula-pink);
+  box-shadow: 0 0 8px var(--cosmic-nebula-pink);
+}
+
+.nav-link-cosmic:hover .nav-link-starlight {
+  width: 100%;
+}
+
+.nav-link-cosmic:hover .nav-link-starlight::before,
+.nav-link-cosmic:hover .nav-link-starlight::after {
+  transform: translateY(-50%) scale(1);
+}
+
+.nav-link-cosmic.active .nav-link-starlight {
+  width: 100%;
+}
+
+.nav-link-cosmic.active .nav-link-starlight::before,
+.nav-link-cosmic.active .nav-link-starlight::after {
+  transform: translateY(-50%) scale(1);
+  animation: star-twinkle 1.5s ease-in-out infinite;
+}
+
+@keyframes star-twinkle {
+  0%, 100% { opacity: 0.6; transform: translateY(-50%) scale(0.8); }
+  50% { opacity: 1; transform: translateY(-50%) scale(1.2); }
+}
+
+/* Logo光晕 */
+.logo-glow {
+  position: relative;
+}
+
+.logo-glow::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  background: var(--gradient-aurora);
+  border-radius: inherit;
+  filter: blur(10px);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+
+.logo-glow:hover::before {
+  opacity: 0.6;
+  animation: logo-pulse 2s ease-in-out infinite;
+}
+
+/* Logo脉冲光环 */
+.logo-pulse-ring {
+  position: absolute;
+  inset: -6px;
+  border-radius: 1rem;
+  border: 2px solid transparent;
+  background: linear-gradient(135deg, rgba(123, 44, 191, 0.3), rgba(233, 69, 96, 0.3)) border-box;
+  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: logo-ring-pulse 3s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes logo-ring-pulse {
+  0%, 100% { 
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% { 
+    opacity: 0.7;
+    transform: scale(1.1);
+  }
+}
+
+@keyframes logo-pulse {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.1); }
+}
+
+
+/* ===== 按钮涟漪效果 ===== */
+.btn-cosmic {
+  position: relative;
+  overflow: hidden;
+  background: var(--gradient-cosmic);
+  border: none;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-cosmic:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(123, 44, 191, 0.3);
+}
+
+.btn-cosmic:active {
+  transform: translateY(0);
+}
+
+.btn-cosmic .ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  transform: scale(0);
+  animation: ripple-effect 0.6s ease-out;
+  pointer-events: none;
+}
+
+@keyframes ripple-effect {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+/* ===== 入场动画 ===== */
+.animate-fade-in {
+  animation: fade-in 0.6s ease-out forwards;
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.animate-fade-in-scale {
+  animation: fade-in-scale 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fade-in-up {
+  from { 
+    opacity: 0; 
+    transform: translateY(30px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+@keyframes fade-in-scale {
+  from { 
+    opacity: 0; 
+    transform: scale(0.95); 
+  }
+  to { 
+    opacity: 1; 
+    transform: scale(1); 
+  }
+}
+
+/* 动画延迟 */
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
+.delay-600 { animation-delay: 600ms; }
+.delay-700 { animation-delay: 700ms; }
+.delay-800 { animation-delay: 800ms; }
+
+/* ===== 漂浮动画 ===== */
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-float-slow {
+  animation: float-slow 8s ease-in-out infinite;
+}
+
+.animate-float-reverse {
+  animation: float-reverse 7s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-30px) rotate(5deg); }
+}
+
+@keyframes float-reverse {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(20px) rotate(-3deg); }
+}
+
+/* ===== 渐变动画 ===== */
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient-shift 6s ease infinite;
+}
+
+/* ===== 脉冲动画 ===== */
+.animate-pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { 
+    box-shadow: 0 0 20px rgba(123, 44, 191, 0.3);
+    opacity: 0.8;
+  }
+  50% { 
+    box-shadow: 0 0 40px rgba(123, 44, 191, 0.5);
+    opacity: 1;
+  }
+}
+
+/* ===== 内容层级 ===== */
+.content-layer {
+  position: relative;
+  z-index: 10;
+}
+
+/* ===== 宇宙主题文章内容样式 ===== */
+.prose-cosmic {
+  font-size: 1.125rem;
+  line-height: 1.8;
+  color: #374151;
+}
+
+@media (prefers-color-scheme: dark) {
+  .prose-cosmic {
+    color: #e5e7eb;
+  }
+}
+
+/* 段落 */
+.prose-cosmic p {
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+  text-align: justify;
+}
+
+.prose-cosmic p:first-child {
+  margin-top: 0;
+}
+
+/* 标题样式 */
+.prose-cosmic h1,
+.prose-cosmic h2,
+.prose-cosmic h3,
+.prose-cosmic h4,
+.prose-cosmic h5,
+.prose-cosmic h6 {
+  font-weight: 700;
+  line-height: 1.3;
+  margin-top: 2.5em;
+  margin-bottom: 1em;
+  color: #1f2937;
+}
+
+@media (prefers-color-scheme: dark) {
+  .prose-cosmic h1,
+  .prose-cosmic h2,
+  .prose-cosmic h3,
+  .prose-cosmic h4,
+  .prose-cosmic h5,
+  .prose-cosmic h6 {
+    color: #f9fafb;
+  }
+}
+
+.prose-cosmic h1 {
+  font-size: 2.25em;
+  background: linear-gradient(135deg, #7b2cbf, #e94560);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.prose-cosmic h2 {
+  font-size: 1.75em;
+  padding-bottom: 0.5em;
+  border-bottom: 2px solid transparent;
+  border-image: linear-gradient(90deg, #7b2cbf, #00d9ff, transparent) 1;
+  position: relative;
+}
+
+.prose-cosmic h2::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, #7b2cbf, #e94560);
+  border-radius: 2px;
+}
+
+.prose-cosmic h3 {
+  font-size: 1.375em;
+  color: #7b2cbf;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+
+@media (prefers-color-scheme: dark) {
+  .prose-cosmic h3 {
+    color: #00d9ff;
+  }
+}
+
+.prose-cosmic h3::before {
+  content: '◆';
+  font-size: 0.6em;
+  color: #e94560;
+}
+
+.prose-cosmic h4 {
+  font-size: 1.125em;
+  color: #6b7280;
+}
+
+@media (prefers-color-scheme: dark) {
+  .prose-cosmic h4 {
+    color: #9ca3af;
+  }
+}
+
+/* 链接 */
+.prose-cosmic a {
+  color: #7b2cbf;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+@media (prefers-color-scheme: dark) {
+  .prose-cosmic a {
+    color: #00d9ff;
+  }
+}
+
+.prose-cosmic a:hover {
+  border-bottom-color: currentColor;
+  text-shadow: 0 0 10px rgba(123, 44, 191, 0.3);
+}
+
+/* 列表 */
+.prose-cosmic ul,
+.prose-cosmic ol {
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+  padding-left: 1.5em;
+}
+
+.prose-cosmic ul {
+  list-style: none;
+}
+
+.prose-cosmic ul li {
+  position: relative;
+  padding-left: 1.5em;
+  margin-bottom: 0.75em;
+}
+
+.prose-cosmic ul li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.6em;
+  width: 6px;
+  height: 6px;
+  background: linear-gradient(135deg, #7b2cbf, #e94560);
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(123, 44, 191, 0.4);
+}
+
+.prose-cosmic ol {
+  list-style: none;
+  counter-reset: item;
+}
+
+.prose-cosmic ol li {
+  position: relative;
+  padding-left: 2.5em;
+  margin-bottom: 0.75em;
+  counter-increment: item;
+}
+
+.prose-cosmic ol li::before {
+  content: counter(item);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1.75em;
+  height: 1.75em;
+  background: linear-gradient(135deg, rgba(123, 44, 191, 0.15), rgba(0, 217, 255, 0.15));
+  border: 1px solid rgba(123, 44, 191, 0.3);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8em;
+  font-weight: 600;
+  color: #7b2cbf;
+}
+
+@media (prefers-color-scheme: dark) {
+  .prose-cosmic ol li::before {
+    color: #00d9ff;
+  }
+}
+
+/* 行内代码 */
+.prose-cosmic .inline-code,
+.prose-cosmic code:not(pre code) {
+  font-family: 'Fira Code', 'JetBrains Mono', monospace;
+  font-size: 0.875em;
+  padding: 0.2em 0.5em;
+  background: linear-gradient(135deg, rgba(123, 44, 191, 0.1), rgba(0, 217, 255, 0.1));
+  border: 1px solid rgba(123, 44, 191, 0.2);
+  border-radius: 0.375rem;
+  color: #e94560;
+  font-weight: 500;
+}
+
+@media (prefers-color-scheme: dark) {
+  .prose-cosmic .inline-code,
+  .prose-cosmic code:not(pre code) {
+    background: linear-gradient(135deg, rgba(123, 44, 191, 0.2), rgba(0, 217, 255, 0.2));
+    color: #00d9ff;
+  }
+}
+
+/* 代码块 */
+.prose-cosmic .code-block,
+.prose-cosmic pre {
+  margin: 2em 0;
+  padding: 1.5em;
+  background: linear-gradient(135deg, #1a1a2e, #16213e);
+  border-radius: 1rem;
+  border: 1px solid rgba(123, 44, 191, 0.3);
+  overflow-x: auto;
+  position: relative;
+  box-shadow: 
+    0 10px 40px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.prose-cosmic .code-block::before,
+.prose-cosmic pre::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #7b2cbf, #e94560, #00d9ff);
+  border-radius: 1rem 1rem 0 0;
+}
+
+.prose-cosmic pre code {
+  font-family: 'Fira Code', 'JetBrains Mono', monospace;
+  font-size: 0.9em;
+  line-height: 1.7;
+  background: transparent;
+  padding: 0;
+  border: none;
+  color: #e5e7eb;
+}
+
+/* 引用块 */
+.prose-cosmic blockquote {
+  margin: 2em 0;
+  padding: 1.5em 2em;
+  background: linear-gradient(135deg, rgba(123, 44, 191, 0.08), rgba(233, 69, 96, 0.05));
+  border-left: 4px solid;
+  border-image: linear-gradient(180deg, #7b2cbf, #e94560) 1;
+  border-radius: 0 1rem 1rem 0;
+  position: relative;
+  font-style: italic;
+  color: #4b5563;
+}
+
+@media (prefers-color-scheme: dark) {
+  .prose-cosmic blockquote {
+    background: linear-gradient(135deg, rgba(123, 44, 191, 0.15), rgba(233, 69, 96, 0.1));
+    color: #d1d5db;
+  }
+}
+
+.prose-cosmic blockquote::before {
+  content: '"';
+  position: absolute;
+  top: -0.25em;
+  left: 0.5em;
+  font-size: 4em;
+  font-family: Georgia, serif;
+  color: rgba(123, 44, 191, 0.2);
+  line-height: 1;
+}
+
+.prose-cosmic blockquote p {
+  margin: 0;
+  position: relative;
+  z-index: 1;
+}
+
+/* 图片 */
+.prose-cosmic img {
+  margin: 2.5em auto;
+  border-radius: 1rem;
+  box-shadow: 
+    0 20px 60px rgba(0, 0, 0, 0.15),
+    0 0 0 1px rgba(123, 44, 191, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.prose-cosmic img:hover {
+  transform: scale(1.02);
+  box-shadow: 
+    0 25px 80px rgba(0, 0, 0, 0.2),
+    0 0 30px rgba(123, 44, 191, 0.15);
+}
+
+/* 表格 */
+.prose-cosmic table {
+  width: 100%;
+  margin: 2em 0;
+  border-collapse: collapse;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.prose-cosmic thead {
+  background: linear-gradient(135deg, rgba(123, 44, 191, 0.15), rgba(0, 217, 255, 0.1));
+}
+
+.prose-cosmic th {
+  padding: 1em 1.5em;
+  text-align: left;
+  font-weight: 600;
+  color: #7b2cbf;
+  border-bottom: 2px solid rgba(123, 44, 191, 0.2);
+}
+
+@media (prefers-color-scheme: dark) {
+  .prose-cosmic th {
+    color: #00d9ff;
+  }
+}
+
+.prose-cosmic td {
+  padding: 1em 1.5em;
+  border-bottom: 1px solid rgba(123, 44, 191, 0.1);
+}
+
+.prose-cosmic tbody tr {
+  transition: background 0.2s ease;
+}
+
+.prose-cosmic tbody tr:hover {
+  background: rgba(123, 44, 191, 0.05);
+}
+
+@media (prefers-color-scheme: dark) {
+  .prose-cosmic tbody tr:hover {
+    background: rgba(123, 44, 191, 0.1);
+  }
+}
+
+/* 分割线 */
+.prose-cosmic hr {
+  margin: 3em 0;
+  border: none;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #7b2cbf, #e94560, #00d9ff, transparent);
+  border-radius: 1px;
+}
+
+/* 强调文本 */
+.prose-cosmic strong {
+  font-weight: 700;
+  color: #1f2937;
+  background: linear-gradient(135deg, rgba(123, 44, 191, 0.1), rgba(233, 69, 96, 0.1));
+  padding: 0.1em 0.3em;
+  border-radius: 0.25rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  .prose-cosmic strong {
+    color: #f9fafb;
+  }
+}
+
+.prose-cosmic em {
+  font-style: italic;
+  color: #7b2cbf;
+}
+
+@media (prefers-color-scheme: dark) {
+  .prose-cosmic em {
+    color: #00d9ff;
+  }
+}
+
+/* 删除线 */
+.prose-cosmic del {
+  text-decoration: line-through;
+  color: #9ca3af;
+}
+
+/* 任务列表 */
+.prose-cosmic input[type="checkbox"] {
+  appearance: none;
+  width: 1.25em;
+  height: 1.25em;
+  border: 2px solid #7b2cbf;
+  border-radius: 0.25rem;
+  margin-right: 0.5em;
+  vertical-align: middle;
+  position: relative;
+  cursor: pointer;
+}
+
+.prose-cosmic input[type="checkbox"]:checked {
+  background: linear-gradient(135deg, #7b2cbf, #e94560);
+  border-color: transparent;
+}
+
+.prose-cosmic input[type="checkbox"]:checked::after {
+  content: '✓';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 0.75em;
+  font-weight: bold;
+}
+
+/* 脚注 */
+.prose-cosmic sup {
+  font-size: 0.75em;
+  color: #7b2cbf;
+}
+
+@media (prefers-color-scheme: dark) {
+  .prose-cosmic sup {
+    color: #00d9ff;
+  }
+}
+
+/* 旧版 prose 样式保留兼容 */
 .prose {
   line-height: 1.75;
 }
@@ -56,6 +1080,9 @@ body {
 .prose code {
   font-size: 0.875em;
   font-weight: 600;
+  background: rgba(123, 44, 191, 0.1);
+  padding: 0.2em 0.4em;
+  border-radius: 0.25rem;
 }
 
 .prose pre {
@@ -63,19 +1090,25 @@ body {
   margin-bottom: 2em;
   padding: 1.5em;
   overflow-x: auto;
+  background: var(--cosmic-deep-purple);
+  border-radius: 0.75rem;
+  border: 1px solid rgba(123, 44, 191, 0.2);
 }
 
 .prose blockquote {
   margin-top: 1.6em;
   margin-bottom: 1.6em;
   padding-left: 1em;
-  border-left: 0.25em solid #e5e7eb;
+  border-left: 3px solid var(--cosmic-nebula-pink);
+  color: inherit;
+  opacity: 0.9;
 }
 
 .prose img {
   margin-top: 2em;
   margin-bottom: 2em;
-  border-radius: 0.5rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
 }
 
 .prose table {
@@ -86,6 +1119,530 @@ body {
 }
 
 .prose th, .prose td {
-  border: 1px solid #e5e7eb;
+  border: 1px solid rgba(123, 44, 191, 0.2);
   padding: 0.5em 1em;
+}
+
+/* ===== 滚动条美化 ===== */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--cosmic-violet), var(--cosmic-nebula-pink));
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, var(--cosmic-nebula-pink), var(--cosmic-violet));
+}
+
+/* ===== 选中文字样式 ===== */
+::selection {
+  background: rgba(123, 44, 191, 0.3);
+  color: inherit;
+}
+
+::-moz-selection {
+  background: rgba(123, 44, 191, 0.3);
+  color: inherit;
+}
+
+
+/* ===== 全局微交互效果 ===== */
+
+/* 链接悬停星光下划线 */
+.link-cosmic {
+  position: relative;
+  display: inline-block;
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.link-cosmic::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--gradient-aurora);
+  transition: width 0.3s ease;
+  border-radius: 1px;
+}
+
+.link-cosmic:hover {
+  color: var(--cosmic-violet);
+}
+
+.link-cosmic:hover::after {
+  width: 100%;
+  box-shadow: 0 0 10px rgba(0, 217, 255, 0.5);
+}
+
+/* 按钮星光涟漪效果 */
+.btn-ripple {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-ripple::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, transparent 70%);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.6s ease, height 0.6s ease, opacity 0.6s ease;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.btn-ripple:active::before {
+  width: 300px;
+  height: 300px;
+  opacity: 1;
+  transition: width 0s, height 0s, opacity 0s;
+}
+
+/* 滚动入场动画 - 带光晕 */
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.scroll-reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.scroll-reveal-glow {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease, box-shadow 0.6s ease;
+}
+
+.scroll-reveal-glow.revealed {
+  opacity: 1;
+  transform: translateY(0);
+  animation: glow-in 0.8s ease forwards;
+}
+
+@keyframes glow-in {
+  0% {
+    box-shadow: 0 0 0 rgba(123, 44, 191, 0);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(123, 44, 191, 0.3);
+  }
+  100% {
+    box-shadow: 0 0 0 rgba(123, 44, 191, 0);
+  }
+}
+
+/* 交互元素悬停光效 */
+.hover-glow {
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.hover-glow:hover {
+  box-shadow: 
+    0 0 20px rgba(123, 44, 191, 0.2),
+    0 0 40px rgba(0, 217, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+/* 图标旋转动画 */
+.icon-spin {
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.icon-spin:hover {
+  transform: rotate(360deg);
+}
+
+/* 文字闪烁效果 */
+.text-shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--cosmic-violet) 0%,
+    var(--cosmic-nebula-pink) 25%,
+    var(--cosmic-aurora-green) 50%,
+    var(--cosmic-nebula-pink) 75%,
+    var(--cosmic-violet) 100%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 3s linear infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* 卡片倾斜效果 */
+.card-tilt {
+  transition: transform 0.3s ease;
+  transform-style: preserve-3d;
+}
+
+.card-tilt:hover {
+  transform: perspective(1000px) rotateX(2deg) rotateY(-2deg) scale(1.02);
+}
+
+/* 边框流光效果 */
+.border-flow {
+  position: relative;
+  overflow: hidden;
+}
+
+.border-flow::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 2px;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    var(--cosmic-aurora-green) 60deg,
+    var(--cosmic-violet) 120deg,
+    var(--cosmic-nebula-pink) 180deg,
+    transparent 240deg
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: border-rotate 4s linear infinite;
+}
+
+@keyframes border-rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* 焦点状态增强 */
+.focus-cosmic:focus {
+  outline: none;
+  box-shadow: 
+    0 0 0 2px var(--background),
+    0 0 0 4px var(--cosmic-violet),
+    0 0 20px rgba(123, 44, 191, 0.3);
+}
+
+.focus-cosmic:focus-visible {
+  outline: none;
+  box-shadow: 
+    0 0 0 2px var(--background),
+    0 0 0 4px var(--cosmic-aurora-green),
+    0 0 20px rgba(0, 217, 255, 0.3);
+}
+
+/* 加载动画 */
+.loading-cosmic {
+  width: 40px;
+  height: 40px;
+  border: 3px solid transparent;
+  border-top-color: var(--cosmic-violet);
+  border-right-color: var(--cosmic-nebula-pink);
+  border-radius: 50%;
+  animation: spin-cosmic 1s linear infinite;
+}
+
+@keyframes spin-cosmic {
+  to { transform: rotate(360deg); }
+}
+
+/* 骨架屏闪烁 */
+.skeleton-cosmic {
+  background: linear-gradient(
+    90deg,
+    var(--surface) 25%,
+    rgba(123, 44, 191, 0.1) 50%,
+    var(--surface) 75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.5s ease-in-out infinite;
+}
+
+@keyframes skeleton-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+
+/* ===== 宇宙装饰动画 ===== */
+
+/* 星云漂移 */
+@keyframes nebula-drift {
+  0%, 100% { 
+    transform: translate(0, 0) scale(1);
+    opacity: 0.6;
+  }
+  25% {
+    transform: translate(20px, -15px) scale(1.1);
+    opacity: 0.8;
+  }
+  50% { 
+    transform: translate(-10px, 10px) scale(0.95);
+    opacity: 0.5;
+  }
+  75% {
+    transform: translate(15px, 5px) scale(1.05);
+    opacity: 0.7;
+  }
+}
+
+/* 明亮闪烁 */
+@keyframes twinkle-bright {
+  0%, 100% { 
+    opacity: 0.3;
+    transform: scale(0.8);
+    filter: brightness(1);
+  }
+  50% { 
+    opacity: 1;
+    transform: scale(1.2);
+    filter: brightness(1.5);
+  }
+}
+
+/* 流星效果 */
+@keyframes shooting-star {
+  0% {
+    opacity: 0;
+    transform: rotate(-45deg) translateX(-100px);
+  }
+  5% {
+    opacity: 1;
+  }
+  15% {
+    opacity: 1;
+    transform: rotate(-45deg) translateX(200px);
+  }
+  20%, 100% {
+    opacity: 0;
+    transform: rotate(-45deg) translateX(200px);
+  }
+}
+
+/* 环形脉冲 */
+@keyframes ring-pulse {
+  0%, 100% {
+    opacity: 0.2;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: translate(-50%, -50%) scale(1.2);
+  }
+}
+
+/* 慢速脉冲 */
+.animate-pulse-slow {
+  animation: pulse-slow 4s ease-in-out infinite;
+}
+
+@keyframes pulse-slow {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 0.8; }
+}
+
+
+/* ===== 展示柜样式 ===== */
+
+/* 展示柜容器 - 3D 透视 */
+.showcase-cabinet {
+  perspective: 1000px;
+  transform-style: preserve-3d;
+}
+
+/* 展示柜主体 - 悬停效果 */
+.showcase-cabinet:hover .showcase-inner {
+  transform: rotateX(0deg) translateY(-8px);
+  box-shadow: 
+    0 30px 60px rgba(0, 0, 0, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.1) inset,
+    0 -2px 15px rgba(255, 255, 255, 0.05) inset;
+}
+
+/* 展示柜入场动画 */
+@keyframes cabinetEnter {
+  from {
+    opacity: 0;
+    transform: translateY(40px) rotateX(10deg);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) rotateX(2deg);
+  }
+}
+
+.showcase-cabinet.animate-enter {
+  animation: cabinetEnter 0.6s ease-out forwards;
+}
+
+/* 聚光灯脉冲动画 */
+@keyframes spotlightPulse {
+  0%, 100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.showcase-cabinet:hover .spotlight {
+  animation: spotlightPulse 2s ease-in-out infinite;
+}
+
+/* 玻璃反光动画 */
+@keyframes glassShimmer {
+  0% {
+    transform: translateX(-100%) skewX(-15deg);
+  }
+  100% {
+    transform: translateX(200%) skewX(-15deg);
+  }
+}
+
+.showcase-cabinet:hover .glass-reflection::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  animation: glassShimmer 1.5s ease-in-out;
+}
+
+/* 展示柜网格布局 */
+.showcase-gallery {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(1, 1fr);
+}
+
+@media (min-width: 640px) {
+  .showcase-gallery {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .showcase-gallery {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1280px) {
+  .showcase-gallery {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* 展示柜筛选动画 */
+.showcase-cabinet.filtering-out {
+  animation: filterOut 0.3s ease-out forwards;
+}
+
+.showcase-cabinet.filtering-in {
+  animation: filterIn 0.3s ease-out forwards;
+}
+
+@keyframes filterOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+}
+
+@keyframes filterIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* 展示柜精选标识动画 */
+@keyframes featuredGlow {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(251, 191, 36, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(251, 191, 36, 0.7);
+  }
+}
+
+.showcase-cabinet .featured-badge {
+  animation: featuredGlow 2s ease-in-out infinite;
+}
+
+/* 深色模式下的展示柜增强 */
+@media (prefers-color-scheme: dark) {
+  .showcase-inner {
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.03) 0%,
+      rgba(255, 255, 255, 0.01) 100%
+    );
+  }
+  
+  .showcase-cabinet:hover .showcase-inner {
+    box-shadow: 
+      0 30px 60px rgba(0, 0, 0, 0.5),
+      0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+  }
+}
+
+/* 浅色模式下的展示柜 */
+@media (prefers-color-scheme: light) {
+  .showcase-inner {
+    background: linear-gradient(
+      135deg,
+      rgba(0, 0, 0, 0.02) 0%,
+      rgba(0, 0, 0, 0.05) 100%
+    );
+  }
+  
+  .showcase-cabinet .showcase-inner h3 {
+    color: #1f2937;
+  }
+  
+  .showcase-cabinet .showcase-inner p {
+    color: #4b5563;
+  }
+  
+  .showcase-cabinet .showcase-inner span {
+    color: #6b7280;
+  }
 }
